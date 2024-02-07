@@ -1,5 +1,5 @@
 import {  partida } from "./modelo";
-import {  dameCarta, sumarCartas, nuevaPartidaMotor, convertirCarta} from "./motor";
+import {  dameCarta, sumarCartas, nuevaPartidaMotor, convertirCarta, mensajes} from "./motor";
 
 export const botonPedir = document.getElementById("dameCarta") as HTMLButtonElement;
 export const botonMePlanto = document.getElementById("mePlanto")  as HTMLButtonElement;
@@ -7,59 +7,46 @@ export const botonReiniciar = document.getElementById("reiniciar")  as HTMLButto
 export const botonRevelar = document.getElementById("revelaCarta")  as HTMLButtonElement;
 export let elementoMsj = document.getElementById("msj") as HTMLDivElement;
 
+export function deshabilitarBoton(boton : HTMLButtonElement){
+    if (boton && boton instanceof HTMLButtonElement) {
+        boton.disabled = true;
+    }
+}
+
+export function habilitarBoton(boton : HTMLButtonElement){
+    if (boton && boton instanceof HTMLButtonElement) {
+        boton.disabled = false;
+    }
+}
+export function muestraPuntuacion () {
+    const puntuacion = document.getElementById("puntuacion");
+    if (puntuacion && puntuacion instanceof HTMLDivElement) {
+        puntuacion.innerHTML = partida.puntuacionUsuario.toString();
+    } 
+}
 
 export function muestraCarta(numCarta : number){
     const carta = convertirCarta(numCarta);
     if (carta){
         let imagenCarta = document.getElementById("carta") as HTMLImageElement;
-        if (imagenCarta) {
+        if (imagenCarta){
             imagenCarta.src = carta.imagen;
             imagenCarta.alt = carta.alt;
-          }
+        }
     }
 }
 
-export function gameOver(puntuacionUsuario : number){
-    if(puntuacionUsuario > 7.5){
-        if(elementoMsj && elementoMsj instanceof HTMLDivElement){
-            elementoMsj.innerHTML = "Has perdido";
-        }
+export function muestraMensaje(puntuacion : number){
+    elementoMsj.innerHTML = mensajes(puntuacion);
+}
+
+export function ganarOPerder(puntuacion : number){
+    if(puntuacion > 7.5 || puntuacion === 7.5){
+        muestraMensaje(puntuacion);
         deshabilitarBoton(botonPedir);
         deshabilitarBoton(botonMePlanto);
         habilitarBoton(botonReiniciar);
     }
-}
-
-export function hasGanado(puntuacionUsuario : number){
-    if (puntuacionUsuario === 7.5) {
-        if(elementoMsj && elementoMsj instanceof HTMLDivElement){
-            elementoMsj.innerHTML = "Has ganado";
-        }
-        deshabilitarBoton(botonPedir);
-        deshabilitarBoton(botonMePlanto);
-        habilitarBoton(botonReiniciar);
-    }
-}
-
-export function mePlanto(puntuacionUsuario : number){
-    let mensaje = "";
-    if(puntuacionUsuario <= 4){
-        mensaje = "Has sido muy conservador";
-    } else if (puntuacionUsuario > 4 && puntuacionUsuario < 6) {
-        mensaje = "Te ha entrado el canguelo, eh?";
-    } else if (puntuacionUsuario >= 6 && puntuacionUsuario <= 7) {
-        mensaje = "Casi, casi...";
-    } else if (puntuacionUsuario === 7.5){
-        mensaje = "¡Lo has clavado! ¡Enhorabuena!";
-    }
-
-    if(elementoMsj && elementoMsj instanceof HTMLDivElement){
-        elementoMsj.innerHTML = mensaje;
-    }
-
-    deshabilitarBoton(botonMePlanto);
-    habilitarBoton(botonReiniciar);
-    habilitarBoton(botonRevelar);
 }
 
 export function nuevaPartidaUI(){
@@ -77,13 +64,15 @@ export function handleClickCarta(){
     muestraCarta(carta);
     sumarCartas(carta);
     muestraPuntuacion();
-    hasGanado(partida.puntuacionUsuario);
-    gameOver(partida.puntuacionUsuario);
+    ganarOPerder(partida.puntuacionUsuario);
 }
 
 export function handleClickPlanto(){
-    mePlanto(partida.puntuacionUsuario);
+    muestraMensaje(partida.puntuacionUsuario);
     deshabilitarBoton(botonPedir);
+    deshabilitarBoton(botonMePlanto);
+    habilitarBoton(botonReiniciar);
+    habilitarBoton(botonRevelar);
 }
 
 export function handleClickReiniciar(){
@@ -104,21 +93,3 @@ export function handleClickRevelarCarta(){
 
 }
 
-export function muestraPuntuacion () {
-    const puntuacion = document.getElementById("puntuacion");
-    if (puntuacion && puntuacion instanceof HTMLDivElement) {
-        puntuacion.innerHTML = partida.puntuacionUsuario.toString();
-    } 
-}
-
-export function deshabilitarBoton(boton : HTMLButtonElement){
-    if (boton && boton instanceof HTMLButtonElement) {
-        boton.disabled = true;
-    }
-}
-
-export function habilitarBoton(boton : HTMLButtonElement){
-    if (boton && boton instanceof HTMLButtonElement) {
-        boton.disabled = false;
-    }
-}

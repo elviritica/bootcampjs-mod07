@@ -1,4 +1,4 @@
-import { partida, AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, Carta } from "./modelo";
+import { partida, AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, Carta, CERO } from "./modelo";
 
 export function generarNumRandom (min : number, max : number) : number{
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -13,11 +13,10 @@ export function dameCarta(){
     } else {
         carta = num;
     }
-
     return carta;
 }
 
-export function convertirCarta(carta: number): Carta | undefined {
+export function convertirCarta(carta: number): Carta {
     switch (carta) {
         case 1:
         return AS;
@@ -40,8 +39,24 @@ export function convertirCarta(carta: number): Carta | undefined {
         case 12:
         return REY;
     }
-    return undefined;
-  }
+    return CERO;
+}
+
+export function mensajes(puntuacionUsuario : number){
+    let mensaje = "";
+    if (puntuacionUsuario <= 4) {
+        mensaje = "Has sido muy conservador";
+    } else if (puntuacionUsuario > 4 && puntuacionUsuario < 6) {
+        mensaje = "Te ha entrado el canguelo, eh?";
+    } else if (puntuacionUsuario >= 6 && puntuacionUsuario <= 7) {
+        mensaje = "Casi, casi...";
+    } else if (puntuacionUsuario === 7.5) {
+        mensaje = "¡Lo has clavado! ¡Enhorabuena!";
+    } else if (puntuacionUsuario > 7.5){
+        mensaje = "¡Has perdido!";
+    }
+    return mensaje;
+}
 
 export function sumarCartas(carta:number){
     if(carta < 10){
@@ -55,6 +70,7 @@ export function sumarCartas(carta:number){
 export function nuevaPartidaMotor(){
     partida.numIntentos = 0;
     partida.puntuacionUsuario = 0;
+    partida.carta = CERO;
 }
 
 
