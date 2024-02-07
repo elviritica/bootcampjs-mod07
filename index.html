@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/src/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/src/main.ts"></script>
+    <title>Juego de las siete media</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <h1>Juego de las 7.5</h1>
+      <p>¡Sumérgete en el juego de las siete y media en solitario! <br> Baraja, elige cartas y busca la estrategia perfecta para llegar a 7.5 puntos sin pasarte.</p>
+      <div id="puntos-container">
+        <h2>Puntuación</h2>
+        <div id ="puntuacion"></div>
+      </div>
+      <div id ="msj"></div>
+      <div id="botones">
+        <button id="dameCarta">Dame Carta</button>
+
+        <button id="mePlanto">Me Planto</button>
+
+        <button id="reiniciar">Nueva Partida</button>
+        
+        <button id="revelaCarta">Revela Carta</button>
+      </div>
+      
+
+      <div id="mostrarCarta">
+       
+        <img id="carta" src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg" alt="parte de atrás de una carta">
+      </div>
+
+    </div>
+    
+  </body>
+</html>
