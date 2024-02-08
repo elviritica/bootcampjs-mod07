@@ -68,12 +68,25 @@ export function sumarCartas(carta:number){
 }
 
 export function nuevaPartidaMotor(){
+    partida.estadoJugador = "jugando";
     partida.numIntentos = 0;
     partida.puntuacionUsuario = 0;
     partida.carta = CERO;
 }
 
+export function actualizarEstadoJugador(){
+    let puntuacion = partida.puntuacionUsuario;
+    let estadoJugador = partida.estadoJugador;
+    
+    if(puntuacion === 7.5){
+        estadoJugador = 'gana'
+    } else if (puntuacion > 7.5){
+        estadoJugador = 'pierde'
+    } else {
+        estadoJugador = 'jugando'
+    }
 
-
+    return estadoJugador;
+}
 
 

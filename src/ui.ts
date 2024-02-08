@@ -1,5 +1,5 @@
 import {  partida } from "./modelo";
-import {  dameCarta, sumarCartas, nuevaPartidaMotor, convertirCarta, mensajes} from "./motor";
+import {  dameCarta, sumarCartas, nuevaPartidaMotor, convertirCarta, mensajes, actualizarEstadoJugador} from "./motor";
 
 export const botonPedir = document.getElementById("dameCarta") as HTMLButtonElement;
 export const botonMePlanto = document.getElementById("mePlanto")  as HTMLButtonElement;
@@ -7,25 +7,30 @@ export const botonReiniciar = document.getElementById("reiniciar")  as HTMLButto
 export const botonRevelar = document.getElementById("revelaCarta")  as HTMLButtonElement;
 export let elementoMsj = document.getElementById("msj") as HTMLDivElement;
 
-export function deshabilitarBoton(boton : HTMLButtonElement){
-    if (boton && boton instanceof HTMLButtonElement) {
-        boton.disabled = true;
+function deshabilitarBoton(...botones: HTMLButtonElement[]) {
+    for (const boton of botones) {
+        if (boton) {
+            boton.disabled = true;
+        }
     }
 }
 
-export function habilitarBoton(boton : HTMLButtonElement){
-    if (boton && boton instanceof HTMLButtonElement) {
-        boton.disabled = false;
+function habilitarBoton(...botones: HTMLButtonElement[]) {
+    for (const boton of botones) {
+        if (boton) {
+            boton.disabled = false;
+        }
     }
 }
-export function muestraPuntuacion () {
-    const puntuacion = document.getElementById("puntuacion");
-    if (puntuacion && puntuacion instanceof HTMLDivElement) {
+
+function muestraPuntuacion () {
+    const puntuacion = document.getElementById("puntuacion") as HTMLDivElement;
+    if (puntuacion) {
         puntuacion.innerHTML = partida.puntuacionUsuario.toString();
     } 
 }
 
-export function muestraCarta(numCarta : number){
+function muestraCarta(numCarta : number){
     const carta = convertirCarta(numCarta);
     if (carta){
         let imagenCarta = document.getElementById("carta") as HTMLImageElement;
@@ -36,16 +41,19 @@ export function muestraCarta(numCarta : number){
     }
 }
 
-export function muestraMensaje(puntuacion : number){
+function muestraMensaje(puntuacion : number){
     elementoMsj.innerHTML = mensajes(puntuacion);
 }
 
-export function ganarOPerder(puntuacion : number){
-    if(puntuacion > 7.5 || puntuacion === 7.5){
-        muestraMensaje(puntuacion);
-        deshabilitarBoton(botonPedir);
-        deshabilitarBoton(botonMePlanto);
+function ganarOPerder(){
+    let estado = actualizarEstadoJugador();
+    if (estado === 'gana' || estado === 'pierde'){
+        muestraMensaje(partida.puntuacionUsuario);
+        deshabilitarBoton(botonPedir, botonMePlanto, botonRevelar);
         habilitarBoton(botonReiniciar);
+    } else {
+        deshabilitarBoton(botonReiniciar, botonRevelar);
+        habilitarBoton(botonPedir, botonMePlanto);
     }
 }
 
@@ -53,26 +61,26 @@ export function nuevaPartidaUI(){
     nuevaPartidaMotor();
     elementoMsj.innerHTML = "";
     muestraPuntuacion();
-    deshabilitarBoton(botonReiniciar);
-    deshabilitarBoton(botonRevelar);
-    habilitarBoton(botonPedir);
-    habilitarBoton(botonMePlanto);
+    deshabilitarBoton(botonReiniciar, botonRevelar);
+    habilitarBoton(botonPedir, botonMePlanto);
+}
+
+function procesarCarta(carta : number){
+    muestraCarta(carta);
+    sumarCartas(carta);
+    muestraPuntuacion();
 }
 
 export function handleClickCarta(){
     let carta = dameCarta();
-    muestraCarta(carta);
-    sumarCartas(carta);
-    muestraPuntuacion();
-    ganarOPerder(partida.puntuacionUsuario);
+    procesarCarta(carta);
+    ganarOPerder();
 }
 
 export function handleClickPlanto(){
     muestraMensaje(partida.puntuacionUsuario);
-    deshabilitarBoton(botonPedir);
-    deshabilitarBoton(botonMePlanto);
-    habilitarBoton(botonReiniciar);
-    habilitarBoton(botonRevelar);
+    deshabilitarBoton(botonPedir, botonMePlanto);
+    habilitarBoton(botonReiniciar, botonRevelar);
 }
 
 export function handleClickReiniciar(){
@@ -81,13 +89,11 @@ export function handleClickReiniciar(){
 
 export function handleClickRevelarCarta(){
     let cartaRevelada = dameCarta();
-    muestraCarta(cartaRevelada);
-    sumarCartas(cartaRevelada);
-    muestraPuntuacion();
+    procesarCarta(cartaRevelada);
 
     deshabilitarBoton(botonRevelar);
     
-    if(elementoMsj && elementoMsj instanceof HTMLDivElement){
+    if(elementoMsj){
         elementoMsj.innerHTML = `Si no te hubieses plantado habrías conseguido una puntuación de ${partida.puntuacionUsuario}`;
     }
 

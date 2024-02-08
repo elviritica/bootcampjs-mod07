@@ -4,6 +4,8 @@ export interface Carta {
     alt: string;
 }
 
+export type EstadoJugador = 'gana' | 'pierde' | 'jugando';
+
 export const CERO : Carta = { valor: 0, imagen: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg", alt: "Carta por detrás" };
 export const AS : Carta = { valor: 1, imagen: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg", alt: "As de copas" };
 export const DOS : Carta = { valor: 2, imagen: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg", alt: "Dos de copas" };
@@ -17,12 +19,14 @@ export const CABALLO : Carta = { valor: 11, imagen: "https://raw.githubuserconte
 export const REY : Carta = { valor: 12, imagen: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg", alt: "Rey de copas" };
 
 interface Partida {
+    estadoJugador : EstadoJugador;
     numIntentos: number;
     puntuacionUsuario : number;
     carta : Carta;
 }
 
 export const partida : Partida = {
+    estadoJugador : "jugando",
     numIntentos : 0,
     puntuacionUsuario: 0,
     carta : CERO

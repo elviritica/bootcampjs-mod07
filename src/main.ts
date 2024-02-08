@@ -4,18 +4,18 @@ document.addEventListener("DOMContentLoaded", ()=> {
     nuevaPartidaUI();
 });
 
-if(botonPedir && botonPedir instanceof HTMLButtonElement){
+if(botonPedir){
     botonPedir.addEventListener("click", handleClickCarta);
 }
 
-if(botonMePlanto && botonMePlanto instanceof HTMLButtonElement){
+if(botonMePlanto){
     botonMePlanto.addEventListener("click", handleClickPlanto);
 }
 
-if(botonReiniciar && botonReiniciar instanceof HTMLButtonElement){
+if(botonReiniciar){
     botonReiniciar.addEventListener("click", handleClickReiniciar);
 }
 
-if(botonRevelar && botonRevelar instanceof HTMLButtonElement){
+if(botonRevelar){
     botonRevelar.addEventListener("click", handleClickRevelarCarta);
 }
