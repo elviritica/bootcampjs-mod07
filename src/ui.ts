@@ -1,4 +1,4 @@
-import {  partida } from "./modelo";
+import {  EstadoJugador, partida } from "./modelo";
 import {  dameCarta, sumarCartas, nuevaPartidaMotor, convertirCarta, mensajes, actualizarEstadoJugador} from "./motor";
 
 export const botonPedir = document.getElementById("dameCarta") as HTMLButtonElement;
@@ -7,7 +7,7 @@ export const botonReiniciar = document.getElementById("reiniciar")  as HTMLButto
 export const botonRevelar = document.getElementById("revelaCarta")  as HTMLButtonElement;
 export let elementoMsj = document.getElementById("msj") as HTMLDivElement;
 
-function deshabilitarBoton(...botones: HTMLButtonElement[]) {
+export function deshabilitarBoton(...botones: HTMLButtonElement[]) {
     for (const boton of botones) {
         if (boton) {
             boton.disabled = true;
@@ -15,7 +15,7 @@ function deshabilitarBoton(...botones: HTMLButtonElement[]) {
     }
 }
 
-function habilitarBoton(...botones: HTMLButtonElement[]) {
+export function habilitarBoton(...botones: HTMLButtonElement[]) {
     for (const boton of botones) {
         if (boton) {
             boton.disabled = false;
@@ -23,14 +23,14 @@ function habilitarBoton(...botones: HTMLButtonElement[]) {
     }
 }
 
-function muestraPuntuacion () {
+export function muestraPuntuacion () {
     const puntuacion = document.getElementById("puntuacion") as HTMLDivElement;
     if (puntuacion) {
         puntuacion.innerHTML = partida.puntuacionUsuario.toString();
     } 
 }
 
-function muestraCarta(numCarta : number){
+export function muestraCarta(numCarta : number){
     const carta = convertirCarta(numCarta);
     if (carta){
         let imagenCarta = document.getElementById("carta") as HTMLImageElement;
@@ -41,12 +41,12 @@ function muestraCarta(numCarta : number){
     }
 }
 
-function muestraMensaje(puntuacion : number){
+export function muestraMensaje(puntuacion : number){
     elementoMsj.innerHTML = mensajes(puntuacion);
 }
 
-function ganarOPerder(){
-    let estado = actualizarEstadoJugador();
+export function ganarOPerder(estado: EstadoJugador){
+    estado = actualizarEstadoJugador(partida.puntuacionUsuario);
     if (estado === 'gana' || estado === 'pierde'){
         muestraMensaje(partida.puntuacionUsuario);
         deshabilitarBoton(botonPedir, botonMePlanto, botonRevelar);
@@ -61,11 +61,12 @@ export function nuevaPartidaUI(){
     nuevaPartidaMotor();
     elementoMsj.innerHTML = "";
     muestraPuntuacion();
+    muestraCarta(0);
     deshabilitarBoton(botonReiniciar, botonRevelar);
     habilitarBoton(botonPedir, botonMePlanto);
 }
 
-function procesarCarta(carta : number){
+export function procesarCarta(carta : number){
     muestraCarta(carta);
     sumarCartas(carta);
     muestraPuntuacion();
@@ -74,7 +75,7 @@ function procesarCarta(carta : number){
 export function handleClickCarta(){
     let carta = dameCarta();
     procesarCarta(carta);
-    ganarOPerder();
+    ganarOPerder(partida.estadoJugador);
 }
 
 export function handleClickPlanto(){

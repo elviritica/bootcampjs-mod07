@@ -38,6 +38,8 @@ export function convertirCarta(carta: number): Carta {
         return CABALLO;
         case 12:
         return REY;
+        case 0: 
+        return CERO;
     }
     return CERO;
 }
@@ -74,8 +76,7 @@ export function nuevaPartidaMotor(){
     partida.carta = CERO;
 }
 
-export function actualizarEstadoJugador(){
-    let puntuacion = partida.puntuacionUsuario;
+export function actualizarEstadoJugador(puntuacion : number){
     let estadoJugador = partida.estadoJugador;
     
     if(puntuacion === 7.5){
@@ -88,5 +89,3 @@ export function actualizarEstadoJugador(){
 
     return estadoJugador;
 }
-
-
