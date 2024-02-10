@@ -45,10 +45,19 @@ export function muestraMensaje(puntuacion : number){
     elementoMsj.innerHTML = mensajes(puntuacion);
 }
 
-export function ganarOPerder(estado: EstadoJugador){
+export function mensajeGanarOPerder(estado: EstadoJugador){
     estado = actualizarEstadoJugador(partida.puntuacionUsuario);
     if (estado === 'gana' || estado === 'pierde'){
         muestraMensaje(partida.puntuacionUsuario);
+    }
+}
+
+export function modificarBotones(puntuacion : number, 
+                                botonPedir: HTMLButtonElement, 
+                                botonMePlanto: HTMLButtonElement, 
+                                botonRevelar: HTMLButtonElement, 
+                                botonReiniciar: HTMLButtonElement) {
+    if (puntuacion === 7.5 || puntuacion > 7.5) {
         deshabilitarBoton(botonPedir, botonMePlanto, botonRevelar);
         habilitarBoton(botonReiniciar);
     } else {
@@ -57,13 +66,18 @@ export function ganarOPerder(estado: EstadoJugador){
     }
 }
 
+export function ganarOPerder(){
+    mensajeGanarOPerder(partida.estadoJugador);
+    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar);
+}
+
+
 export function nuevaPartidaUI(){
     nuevaPartidaMotor();
     elementoMsj.innerHTML = "";
     muestraPuntuacion();
     muestraCarta(0);
-    deshabilitarBoton(botonReiniciar, botonRevelar);
-    habilitarBoton(botonPedir, botonMePlanto);
+    ganarOPerder();
 }
 
 export function procesarCarta(carta : number){
@@ -75,7 +89,7 @@ export function procesarCarta(carta : number){
 export function handleClickCarta(){
     let carta = dameCarta();
     procesarCarta(carta);
-    ganarOPerder(partida.estadoJugador);
+    ganarOPerder();
 }
 
 export function handleClickPlanto(){

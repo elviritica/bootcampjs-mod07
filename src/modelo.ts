@@ -20,17 +20,17 @@ export const REY : Carta = { valor: 12, imagen: "https://raw.githubusercontent.c
 
 interface Partida {
     estadoJugador : EstadoJugador;
-    numIntentos: number;
     puntuacionUsuario : number;
     carta : Carta;
 }
 
 export const partida : Partida = {
     estadoJugador : "jugando",
-    numIntentos : 0,
     puntuacionUsuario: 0,
     carta : CERO
 }
+
+
 
 
 

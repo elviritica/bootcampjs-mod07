@@ -1,4 +1,5 @@
 import { actualizarEstadoJugador } from "./motor";
+import { it, describe, expect } from 'vitest';
 
 describe("actualizarEstadoJugador", () => {
     it("Debería devolver 'gana' cuando la puntuación del usuario sea exactamente 7.5", ()=>{
