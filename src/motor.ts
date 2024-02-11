@@ -1,4 +1,4 @@
-import { partida, AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, Carta, CERO } from "./modelo";
+import { partida, AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, Carta, CERO, PUNT_MAX, EstadoJugador } from "./modelo";
 
 export function generarNumRandom (min : number, max : number) : number{
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -52,9 +52,9 @@ export function mensajes(puntuacionUsuario : number){
         mensaje = "Te ha entrado el canguelo, eh?";
     } else if (puntuacionUsuario >= 6 && puntuacionUsuario <= 7) {
         mensaje = "Casi, casi...";
-    } else if (puntuacionUsuario === 7.5) {
+    } else if (puntuacionUsuario === PUNT_MAX) {
         mensaje = "¡Lo has clavado! ¡Enhorabuena!";
-    } else if (puntuacionUsuario > 7.5){
+    } else if (puntuacionUsuario > PUNT_MAX){
         mensaje = "¡Has perdido!";
     }
     return mensaje;
@@ -71,18 +71,19 @@ export function sumarCartas(carta:number){
 
 export function nuevaPartidaMotor(){
     partida.estadoJugador = "jugando";
-    partida.numIntentos = 0;
     partida.puntuacionUsuario = 0;
     partida.carta = CERO;
 }
 
-export function actualizarEstadoJugador(puntuacion : number){
-    let estadoJugador = partida.estadoJugador;
+export function actualizarEstadoJugador(puntuacion : number, planto : boolean){
+    let estadoJugador : EstadoJugador = 'jugando';
     
-    if(puntuacion === 7.5){
+    if(puntuacion === PUNT_MAX){
         estadoJugador = 'gana'
-    } else if (puntuacion > 7.5){
+    } else if (puntuacion > PUNT_MAX){
         estadoJugador = 'pierde'
+    } else if (planto){
+        estadoJugador = 'planto'
     } else {
         estadoJugador = 'jugando'
     }

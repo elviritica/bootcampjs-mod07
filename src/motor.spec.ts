@@ -6,7 +6,7 @@ describe("actualizarEstadoJugador", () => {
         //Arrange
         let puntuacion : number = 7.5;
         //Act
-        const resultado = actualizarEstadoJugador(puntuacion);
+        const resultado = actualizarEstadoJugador(puntuacion, false);
         //Assert
         expect(resultado).toBe('gana');
     })
@@ -14,16 +14,24 @@ describe("actualizarEstadoJugador", () => {
         //Arrange
         let puntuacion : number = 10;
         //Act
-        const resultado = actualizarEstadoJugador(puntuacion);
+        const resultado = actualizarEstadoJugador(puntuacion, false);
         //Assert
         expect(resultado).toBe('pierde');
     })
-    it("Debería devolver 'jugando' cuando la puntuación del usuario sea menor que 7.5", ()=>{
+    it("Debería devolver 'jugando' cuando la puntuación del usuario sea menor que 7.5 y 'planto' sea 'false' ", ()=>{
         //Arrange
         let puntuacion : number = 5;
         //Act
-        const resultado = actualizarEstadoJugador(puntuacion);
+        const resultado = actualizarEstadoJugador(puntuacion, false);
         //Assert
         expect(resultado).toBe('jugando');
+    })
+    it("Debería devolver 'planto' si la puntuación es menor de 7.5 y cuando 'planto' sea 'true'", ()=>{
+        //Arrange
+        let puntuacion : number = 5;
+        //Act
+        const resultado = actualizarEstadoJugador(puntuacion, true);
+        //Assert
+        expect(resultado).toBe('planto');
     })
 });

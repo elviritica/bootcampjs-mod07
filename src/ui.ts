@@ -41,43 +41,46 @@ export function muestraCarta(numCarta : number){
     }
 }
 
-export function muestraMensaje(puntuacion : number){
-    elementoMsj.innerHTML = mensajes(puntuacion);
-}
-
-export function mensajeGanarOPerder(estado: EstadoJugador){
-    estado = actualizarEstadoJugador(partida.puntuacionUsuario);
-    if (estado === 'gana' || estado === 'pierde'){
-        muestraMensaje(partida.puntuacionUsuario);
+export function muestraMensaje(estado: EstadoJugador, puntuacion : number, planto : boolean, elementoMsj : HTMLDivElement){
+    estado = actualizarEstadoJugador(puntuacion, planto);
+    if(elementoMsj){
+        if (estado === 'gana' || estado === 'pierde'){
+            elementoMsj.innerHTML = mensajes(puntuacion);
+        } else if (estado === 'planto'){
+            elementoMsj.innerHTML = mensajes(puntuacion);
+        } else {
+            elementoMsj.innerHTML = "";
+        }
     }
 }
 
-export function modificarBotones(puntuacion : number, 
+export function modificarBotones(puntuacion : number,
                                 botonPedir: HTMLButtonElement, 
                                 botonMePlanto: HTMLButtonElement, 
                                 botonRevelar: HTMLButtonElement, 
-                                botonReiniciar: HTMLButtonElement) {
-    if (puntuacion === 7.5 || puntuacion > 7.5) {
+                                botonReiniciar: HTMLButtonElement,
+                                planto : boolean,
+                                estado : EstadoJugador) {
+    
+    estado = actualizarEstadoJugador(puntuacion, planto);
+    if (estado === 'gana' || estado === 'pierde') {
         deshabilitarBoton(botonPedir, botonMePlanto, botonRevelar);
         habilitarBoton(botonReiniciar);
-    } else {
+    } else if (estado === 'jugando') {
         deshabilitarBoton(botonReiniciar, botonRevelar);
         habilitarBoton(botonPedir, botonMePlanto);
+    } else if (estado === 'planto') {
+        deshabilitarBoton(botonPedir, botonMePlanto);
+        habilitarBoton(botonReiniciar, botonRevelar);
     }
 }
-
-export function ganarOPerder(){
-    mensajeGanarOPerder(partida.estadoJugador);
-    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar);
-}
-
 
 export function nuevaPartidaUI(){
     nuevaPartidaMotor();
     elementoMsj.innerHTML = "";
     muestraPuntuacion();
     muestraCarta(0);
-    ganarOPerder();
+    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, false, partida.estadoJugador)
 }
 
 export function procesarCarta(carta : number){
@@ -89,13 +92,14 @@ export function procesarCarta(carta : number){
 export function handleClickCarta(){
     let carta = dameCarta();
     procesarCarta(carta);
-    ganarOPerder();
+    muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, false, elementoMsj);
+    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, false, partida.estadoJugador)
 }
 
 export function handleClickPlanto(){
-    muestraMensaje(partida.puntuacionUsuario);
-    deshabilitarBoton(botonPedir, botonMePlanto);
-    habilitarBoton(botonReiniciar, botonRevelar);
+    partida.estadoJugador = actualizarEstadoJugador(partida.puntuacionUsuario, true);
+    muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, true, elementoMsj);
+    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, true, partida.estadoJugador);
 }
 
 export function handleClickReiniciar(){

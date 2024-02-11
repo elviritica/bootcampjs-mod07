@@ -1,10 +1,12 @@
+export const PUNT_MAX = 7.5;
+
 export interface Carta {
     valor: number;
     imagen: string;
     alt: string;
 }
 
-export type EstadoJugador = 'gana' | 'pierde' | 'jugando';
+export type EstadoJugador = 'gana' | 'pierde' | 'jugando' | 'planto';
 
 export const CERO : Carta = { valor: 0, imagen: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg", alt: "Carta por detrás" };
 export const AS : Carta = { valor: 1, imagen: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg", alt: "As de copas" };
