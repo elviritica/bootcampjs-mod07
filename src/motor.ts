@@ -1,19 +1,17 @@
 import { partida, AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, Carta, CERO, PUNT_MAX, EstadoJugador } from "./modelo";
 
-export function generarNumRandom (min : number, max : number) : number{
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+export function numeroCarta(min : number, max : number){
+    let num = Math.floor(Math.random() * (max - min + 1)) + min;
+   
+    if (num > 7) {
+        num += 2;
+    } 
+    return num;
 }
 
-export function dameCarta(){
-    let num = generarNumRandom(1,10);
-    let carta = 0;
-
-    if (num > 7) {
-        carta = num + 2;
-    } else {
-        carta = num;
-    }
-    return carta;
+export function dameCarta(min: number, max: number): number {
+    const numeroAleatorio = numeroCarta(min, max);
+    return numeroAleatorio;
 }
 
 export function convertirCarta(carta: number): Carta {

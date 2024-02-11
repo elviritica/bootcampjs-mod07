@@ -90,7 +90,7 @@ export function procesarCarta(carta : number){
 }
 
 export function handleClickCarta(){
-    let carta = dameCarta();
+    let carta = dameCarta(1, 10);
     procesarCarta(carta);
     muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, false, elementoMsj);
     modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, false, partida.estadoJugador)
@@ -107,7 +107,7 @@ export function handleClickReiniciar(){
 }
 
 export function handleClickRevelarCarta(){
-    let cartaRevelada = dameCarta();
+    let cartaRevelada = dameCarta(1, 10);
     procesarCarta(cartaRevelada);
 
     deshabilitarBoton(botonRevelar);
