@@ -1,5 +1,5 @@
 import { actualizarEstadoJugador, convertirCarta, numeroCarta,  } from "./motor";
-import { partida, AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, Carta, CERO, PUNT_MAX, EstadoJugador } from "./modelo";
+import { AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY } from "./modelo";
 import { it, describe, expect } from 'vitest';
 
 describe("actualizarEstadoJugador", () => {
