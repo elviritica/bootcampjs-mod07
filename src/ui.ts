@@ -9,7 +9,7 @@ export let elementoMsj = document.getElementById("msj") as HTMLDivElement;
 
 export function deshabilitarBoton(...botones: HTMLButtonElement[]) {
     for (const boton of botones) {
-        if (boton) {
+        if (boton && boton instanceof HTMLButtonElement) {
             boton.disabled = true;
         }
     }
@@ -17,7 +17,7 @@ export function deshabilitarBoton(...botones: HTMLButtonElement[]) {
 
 export function habilitarBoton(...botones: HTMLButtonElement[]) {
     for (const boton of botones) {
-        if (boton) {
+        if (boton && boton instanceof HTMLButtonElement) {
             boton.disabled = false;
         }
     }
@@ -41,27 +41,18 @@ export function muestraCarta(numCarta : number){
     }
 }
 
-export function muestraMensaje(estado: EstadoJugador, puntuacion : number, planto : boolean, elementoMsj : HTMLDivElement){
+export function muestraMensaje(estado: EstadoJugador, puntuacion : number, planto : boolean){
     estado = actualizarEstadoJugador(puntuacion, planto);
-    if(elementoMsj){
-        if (estado === 'gana' || estado === 'pierde'){
-            elementoMsj.innerHTML = mensajes(puntuacion);
-        } else if (estado === 'planto'){
-            elementoMsj.innerHTML = mensajes(puntuacion);
-        } else {
-            elementoMsj.innerHTML = "";
-        }
+    if (estado === 'gana' || estado === 'pierde'){
+        elementoMsj.innerHTML = mensajes(puntuacion);
+    } else if (estado === 'planto'){
+        elementoMsj.innerHTML = mensajes(puntuacion);
+    } else {
+        elementoMsj.innerHTML = "";
     }
 }
 
-export function modificarBotones(puntuacion : number,
-                                botonPedir: HTMLButtonElement, 
-                                botonMePlanto: HTMLButtonElement, 
-                                botonRevelar: HTMLButtonElement, 
-                                botonReiniciar: HTMLButtonElement,
-                                planto : boolean,
-                                estado : EstadoJugador) {
-    
+export function modificarBotones(puntuacion : number, planto : boolean, estado : EstadoJugador) {
     estado = actualizarEstadoJugador(puntuacion, planto);
     if (estado === 'gana' || estado === 'pierde') {
         deshabilitarBoton(botonPedir, botonMePlanto, botonRevelar);
@@ -80,7 +71,7 @@ export function nuevaPartidaUI(){
     elementoMsj.innerHTML = "";
     muestraPuntuacion();
     muestraCarta(0);
-    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, false, partida.estadoJugador)
+    modificarBotones(partida.puntuacionUsuario, false, partida.estadoJugador);
 }
 
 export function procesarCarta(carta : number){
@@ -92,14 +83,14 @@ export function procesarCarta(carta : number){
 export function handleClickCarta(){
     let carta = dameCarta(1, 10);
     procesarCarta(carta);
-    muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, false, elementoMsj);
-    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, false, partida.estadoJugador)
+    muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, false);
+    modificarBotones(partida.puntuacionUsuario, false, partida.estadoJugador);
 }
 
 export function handleClickPlanto(){
     partida.estadoJugador = actualizarEstadoJugador(partida.puntuacionUsuario, true);
-    muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, true, elementoMsj);
-    modificarBotones(partida.puntuacionUsuario, botonPedir, botonMePlanto, botonRevelar, botonReiniciar, true, partida.estadoJugador);
+    muestraMensaje(partida.estadoJugador, partida.puntuacionUsuario, true);
+    modificarBotones(partida.puntuacionUsuario, true, partida.estadoJugador);
 }
 
 export function handleClickReiniciar(){
