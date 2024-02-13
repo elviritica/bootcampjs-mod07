@@ -1,6 +1,5 @@
 import { actualizarEstadoJugador, convertirCarta, numeroCarta,  } from "./motor";
 import { AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY } from "./modelo";
-import { it, describe, expect } from 'vitest';
 
 describe("actualizarEstadoJugador", () => {
     it("Debería devolver 'gana' cuando la puntuación del usuario sea exactamente 7.5", ()=>{

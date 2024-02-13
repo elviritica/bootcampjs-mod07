@@ -2,20 +2,20 @@ import { botonMePlanto, botonPedir, botonReiniciar, botonRevelar, handleClickCar
 
 document.addEventListener("DOMContentLoaded", ()=> {
     nuevaPartidaUI();
+
+    if(botonPedir && botonPedir instanceof HTMLButtonElement){
+        botonPedir.addEventListener("click", handleClickCarta);
+    }
+    
+    if(botonMePlanto && botonMePlanto instanceof HTMLButtonElement){
+        botonMePlanto.addEventListener("click", handleClickPlanto);
+    }
+    
+    if(botonReiniciar && botonReiniciar instanceof HTMLButtonElement){
+        botonReiniciar.addEventListener("click", handleClickReiniciar);
+    }
+    
+    if(botonRevelar && botonRevelar instanceof HTMLButtonElement){
+        botonRevelar.addEventListener("click", handleClickRevelarCarta);
+    }
 });
-
-if(botonPedir){
-    botonPedir.addEventListener("click", handleClickCarta);
-}
-
-if(botonMePlanto){
-    botonMePlanto.addEventListener("click", handleClickPlanto);
-}
-
-if(botonReiniciar){
-    botonReiniciar.addEventListener("click", handleClickReiniciar);
-}
-
-if(botonRevelar){
-    botonRevelar.addEventListener("click", handleClickRevelarCarta);
-}

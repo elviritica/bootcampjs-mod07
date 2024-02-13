@@ -36,10 +36,9 @@ export function convertirCarta(carta: number): Carta {
         return CABALLO;
         case 12:
         return REY;
-        case 0: 
+        default: 
         return CERO;
     }
-    return CERO;
 }
 
 export function mensajes(puntuacionUsuario : number){
